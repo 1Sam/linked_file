@@ -18,7 +18,7 @@ class post_var {
 		if ($_POST) {
 			$posts = array();
 			foreach ($_POST as $key => $value) {
-				$posts[$key] = "$value";
+				$posts[$key] = $value;
 			}
 			//$query_string = print_r($posts,true);//join("&", $kv);
 		}
@@ -32,7 +32,7 @@ class post_var {
 		if ($_POST) {
 			$posts = array();
 			foreach ($_POST as $key => $value) {
-				$posts[$key] = "$value";
+				$posts[$key] = $value;
 			}
 			$posts = print_r($posts,true);//join("&", $kv);
 		}
