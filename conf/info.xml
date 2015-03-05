@@ -51,10 +51,16 @@
         <name xml:lang="zh-TW">NAVER</name>
     </author>
    <extra_vars>
-      <var name="설정 변수 명(영문)">
-         <title xml:lang="ko">설정 변수 이름(출력용)</title>
-         <description xml:lang="ko">설정 변수에 대한 설명</description>
-      </var>
+        <var name="filter_ext" type="select">
+            <title xml:lang="ko">확장자 필터링</title>
+            <description xml:lang="ko">첨부파일의 확장자 필터링을 적용합니다.</description>
+            <options value="Y">
+                <title xml:lang="ko">적용</title>
+            </options>
+            <options value="N">
+                <title xml:lang="ko">비적용</title>
+            </options>
+        </var>
    </extra_vars>
 
 </addon>
