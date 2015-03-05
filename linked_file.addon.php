@@ -14,11 +14,11 @@ $document_srl = Context::get('document_srl');
 $seq = $document_srl ? $document_srl : $_SESSION[_editor_sequence_];
 
 //ajax로 전달되는 변수들
-$formData = sprintf('{mid:"%s",sequence_srl:"%s",document_srl:"%s",filelink_url:filelink_url,module_srl:"%s"}', $this->mid,  $seq, $document_srl,$this->module_srl);
+$formData = sprintf('{mid:"%s",sequence_srl:"%s",document_srl:"%s",filelink_url:filelink_url,module_srl:"%s",filter_ext:"%s"}', $this->mid,  $seq, $document_srl,$this->module_srl,$addon_info->filter_ext);
 
 $script =  sprintf('
 			<script type="text/javascript">
-			//xAddEventListener(window,"load", function() { alert("%s"); } );
+			xAddEventListener(window,"load", function() { alert("%s"); } );
 			jQuery(document).ready(function(){
 				jQuery("input[name=tags]").after("%s");
 			});
