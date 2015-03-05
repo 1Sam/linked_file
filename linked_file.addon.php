@@ -18,7 +18,7 @@ $formData = sprintf('{mid:"%s",sequence_srl:"%s",document_srl:"%s",filelink_url:
 
 $script =  sprintf('
 			<script type="text/javascript">
-			xAddEventListener(window,"load", function() { alert("%s"); } );
+			//xAddEventListener(window,"load", function() { alert("%s"); } );
 			jQuery(document).ready(function(){
 				jQuery("input[name=tags]").after("%s");
 			});
