@@ -35,11 +35,12 @@ $script =  sprintf('
 					}
 					var formData = %s;
 					var request = $.ajax({
-						url: ".xe/addons/linked_file/insertFile.php",type:"POST",dataType:"json",data:formData,
+						url: "./addons/linked_file/linked_file.ajax.php",type:"POST",dataType:"json",data:formData,
 						success: function(result){
 							if(result.error == 0){
 								//alert(JSON.stringify(result));
-				reloadFileList(uploaderSettings[result.variables.sequence_srl]);
+								//reload_filelists(result.variables.sequence_srl);
+								reloadFileList(uploaderSettings[result.variables.sequence_srl]);
 							}else {
 								alert(result.message);
 						}},
@@ -50,5 +51,5 @@ $script =  sprintf('
 			});
 		</script>', addslashes($formData), addslashes($html), $formData);
 
-Context::addJsFile('./addons/linked_file/js/previewFiles.js', false ,'', null, 'body');
+Context::addJsFile('./addons/linked_file/js/linked_file.js', false ,'', null, 'body');
 Context::addHtmlHeader($script);
