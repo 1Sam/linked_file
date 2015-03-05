@@ -55,7 +55,7 @@ class upload_linked_file extends Object {
 	protected $document_srl;
 	static $file_url;
 	private $mod_srl;
-
+	private $filter_ext;
 	public function __construct()
 	{
 		//mid, sequence_srl, document_srl, filelink_url, module_srl
@@ -67,7 +67,7 @@ class upload_linked_file extends Object {
 		$this->document_srl = $post_vars[document_srl];
 		$this->file_url = $post_vars[filelink_url];
 		$this->mod_srl = $post_vars[module_srl];
-		$this->result = new Object;
+		$this->filter_ext = $post_vars[filter_ext];
 	}
 
 	function procInsertFileLink()
@@ -78,6 +78,14 @@ class upload_linked_file extends Object {
 		$filename = basename($this->file_url);
 		if(!$filename) return new Object(-1, 'msg_invalid_request');
 
+
+		// direct 파일에 해킹을 의심할 수 있는 확장자가 포함되어 있으면 바로 삭제함
+		// 어차피 링크 파일이라 위험 없음...
+		if($this->filter_ext != 'N') {
+			if(preg_match("/\.(php|phtm|html|htm|cgi|pl|exe|jsp|asp|inc)/i",$filename)) return new Object(-1, '확장자 위험경고');
+		}
+
+
 		if(strlen($filename) > 20 && strpos($filename, '?') > -1)
 		{
 			$rex = strpos($filename, '?') > 10 ? "/([^#]{1,10}).*\?.*(\#.+$)/i":"/.*\?([^#]{1,10}).*(\#.+$)/i";
@@ -85,7 +93,7 @@ class upload_linked_file extends Object {
 		}
 
 		// 업로드 권한이 없거나 정보가 없을시 종료
-		if(!$_SESSION['upload_info'][$this->editor_sequence]->enabled) return new Object(-1, $this->editor_sequence.'xx'.print_r($_SESSION['upload_info'],true).'msg_not_permitted');
+		if(!$_SESSION['upload_info'][$this->editor_sequence]->enabled) return new Object(-1, $this->editor_sequence.'msg_not_permitted');
 
 		// upload_target_srl 값이 명시되지 않았을 경우 세션정보에서 추출
 		if(!$this->document_srl) $this->document_srl = $_SESSION['upload_info'][$this->editor_sequence]->upload_target_srl;
@@ -93,9 +101,7 @@ class upload_linked_file extends Object {
 		// 세션정보에도 정의되지 않았다면 새로 생성
 		if(!$this->document_srl) $_SESSION['upload_info'][$this->editor_sequence]->upload_target_srl = $this->document_srl = getNextSequence();
 
-		// direct 파일에 해킹을 의심할 수 있는 확장자가 포함되어 있으면 바로 삭제함
-		// 어차피 링크 파일이라 위험 없음...
-		if(preg_match("/\.(php|phtm|html|htm|cgi|pl|exe|jsp|asp|inc)/i",$filename)) return new Object(-1, '확장자 위험경고');
+
 
 		$filename = str_replace(array('<', '>'), array('%3C', '%3E'), $filename);
 
